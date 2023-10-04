@@ -23,13 +23,16 @@ def handle_events():
 def reset_world():
 	global running, cx, cy, frame
 	global hx, hy, sx, sy, t
+	global action
+
 	running = True
 	cx, cy = TUK_WIDTH // 2, TUK_HEIGHT // 2
 	frame = 0
+	action = 3
 
 	sx, sy = cx, cy
-	hx, hy = 50, 50
-	#hx, hy = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)
+	#hx, hy = 50, 50
+	hx, hy = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)
 	t = 0.0
 
 
@@ -37,14 +40,17 @@ def render_world():
 	clear_canvas()
 	TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
 	arrow.draw(hx, hy)
-	character.clip_draw(frame * 100, 100 * 1, 100, 100, cx, cy)
+	character.clip_draw(frame * 100, 100 * action, 100, 100, cx, cy)
 	update_canvas()
 
 
 def update_world():
 	global frame
 	global cx, cy, t
+	global action
+
 	frame = (frame + 1) % 8
+	action = 1 if cx < hx else 0
 
 	if t <= 1.0:
 		cx = (1-t)*sx + t*hx	# cx는 시작 x와 끝x를 1-t:t의 비율로 섞은 위치
