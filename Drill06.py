@@ -21,7 +21,7 @@ def handle_events():
 		elif event.type == SDL_MOUSEMOTION:
 			mx, my = event.x, TUK_HEIGHT - 1 - event.y
 		elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-			points.append((event.x,  TUK_HEIGHT - 1 - event.y))
+			points.append((event.x, TUK_HEIGHT - 1 - event.y))
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
 			running = False
 
@@ -32,7 +32,7 @@ def reset_world():
 	global action
 	global mx, my
 	global points
-	mx, my = 0,0
+	mx, my = 0, 0
 	running = True
 	cx, cy = TUK_WIDTH // 2, TUK_HEIGHT // 2
 	frame = 0
@@ -47,16 +47,16 @@ def set_new_target_arrow():
 	global action
 	global frame
 	global target_exists
-	if points:	# points 리스트 안에 남아있는 점이 있으면,
-		sx, sy = cx, cy	# p1 : 시작점
+	if points:  # points 리스트 안에 남아있는 점이 있으면,
+		sx, sy = cx, cy  # p1 : 시작점
 		# hx, hy = 50, 50
-		hx, hy = points[0]	#p2 : 끝점
+		hx, hy = points[0]  # p2 : 끝점
 		t = 0.0
 		action = 1 if sx < hx else 0
 		frame = 0
 		target_exists = True
 	else:
-		action = 2 if action == 0 else 3	# 이전에 소년이 우측으로 이동중이었으면, 소년이 IDLE 동작시 우측을 바라보도록
+		action = 2 if action == 0 else 3  # 이전에 소년이 우측으로 이동중이었으면, 소년이 IDLE 동작시 우측을 바라보도록
 		frame = 0
 		target_exists = False
 
@@ -82,12 +82,13 @@ def update_world():
 			cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝x를 1-t:t의 비율로 섞은 위치
 			cy = (1 - t) * sy + t * hy
 			t += 0.001
-		else:	# 목표 지점에 도달하면
-			cx, cy = hx, hy	# 캐릭터 위치를 목적지 위치와 정확히 일치시킴
-			del points[0]	# 목표지점에 왔기 때문에, 더이상 필요없는 점을 삭제
+		else:  # 목표 지점에 도달하면
+			cx, cy = hx, hy  # 캐릭터 위치를 목적지 위치와 정확히 일치시킴
+			del points[0]  # 목표지점에 왔기 때문에, 더이상 필요없는 점을 삭제
 			set_new_target_arrow()
-	elif points:	# 목표 지점이 없는 상황에서, 새로운 목표 지점이 생기면
+	elif points:  # 목표 지점이 없는 상황에서, 새로운 목표 지점이 생기면
 		set_new_target_arrow()
+
 
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
 hide_cursor()
